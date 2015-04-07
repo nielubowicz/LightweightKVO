@@ -10,8 +10,7 @@
 
 @interface Observer ()
 
-@property (nonatomic, weak) id target;
-@property (nonatomic) SEL selector;
+@property (nonatomic, strong) ObserverActionBlock actionBlock;
 @property (nonatomic, weak) id observedObject;
 @property (nonatomic, copy) NSString* keyPath;
 
@@ -24,19 +23,33 @@
                             target:(id)target
                           selector:(SEL)selector
 {
-    return [[Observer alloc] initWithObject:object keyPath:keyPath target:target selector:selector];
+    __weak typeof(target) weakTarget = target;
+    ObserverActionBlock block = ^void(id value) {
+        __strong typeof(target)strongTarget = weakTarget;
+        if ([strongTarget respondsToSelector:selector]) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+            [strongTarget performSelector:selector withObject:value];
+#pragma clang diagnostic pop
+        }
+    };
+    
+    return [[Observer alloc] initWithObject:object keyPath:keyPath actionBlock:block];
+}
+
++ (instancetype)observerWithObject:(id)object keyPath:(NSString *)keyPath actionBlock:(ObserverActionBlock)action
+{
+    return [[Observer alloc] initWithObject:object keyPath:keyPath actionBlock:action];
 }
 
 - (instancetype)initWithObject:(id)object
                        keyPath:(NSString *)keyPath
-                        target:(id)target
-                      selector:(SEL)selector
+                        actionBlock:(ObserverActionBlock)action
 {
     if (self = [super init]) {
         self.observedObject = object;
         self.keyPath = keyPath;
-        self.target = target;
-        self.selector = selector;
+        self.actionBlock = action;
         [self.observedObject addObserver:self forKeyPath:keyPath options:NSKeyValueObservingOptionNew context:(__bridge void *)(self)];
     }
     
@@ -53,13 +66,7 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if (self == (__bridge Observer *)(context)) {
-        id strongTarget = self.target;
-        if ([strongTarget respondsToSelector:self.selector]) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-            [strongTarget performSelector:self.selector withObject:change[@"new"]];
-#pragma clang diagnostic pop
-        }
+        self.actionBlock(change[@"new"]);
     }
 }
 

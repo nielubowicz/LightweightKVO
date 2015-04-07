@@ -34,7 +34,14 @@
     self.longPressDuration = 0;
     
     self.tapsObserver = [Observer observerWithObject:self keyPath:NSStringFromSelector(@selector(taps)) target:self selector:@selector(tapsUpdated:)];
-    self.longPressObserver = [Observer observerWithObject:self keyPath:NSStringFromSelector(@selector(longPressDuration)) target:self selector:@selector(longPressUpdated:)];
+
+    __weak typeof(self) weakSelf = self;
+    self.longPressObserver = [Observer observerWithObject:self
+                                                  keyPath:NSStringFromSelector(@selector(longPressDuration))
+                                              actionBlock:^(id value) {
+                                                  __strong typeof(self)strongSelf = weakSelf;
+                                                  strongSelf.longPressLabel.text = [NSString stringWithFormat:@"%@", value];
+                                              }];
 }
 
 - (IBAction)tapGestureAction:(id)sender
@@ -59,10 +66,6 @@
 
 - (void)tapsUpdated:(id)value {
     self.tapsLabel.text = [NSString stringWithFormat:@"%@", value];
-}
-
-- (void)longPressUpdated:(id)value {
-    self.longPressLabel.text = [NSString stringWithFormat:@"%@", value];
 }
 
 @end

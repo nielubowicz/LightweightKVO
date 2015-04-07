@@ -10,9 +10,15 @@
 
 @interface Observer : NSObject
 
+typedef void (^ObserverActionBlock)(id value);
+
 + (instancetype)observerWithObject:(id)object
                            keyPath:(NSString *)keyPath
                             target:(id)target
                           selector:(SEL)selector;
+
++ (instancetype)observerWithObject:(id)object
+                           keyPath:(NSString *)keyPath
+                       actionBlock:(ObserverActionBlock)action;
 
 @end
