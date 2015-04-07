@@ -14,6 +14,7 @@
 		8E9197611AD3A05700BC513A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E9197601AD3A05700BC513A /* Images.xcassets */; };
 		8E9197641AD3A05700BC513A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8E9197621AD3A05700BC513A /* LaunchScreen.xib */; };
 		8E9197701AD3A05800BC513A /* LightweightKVOTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E91976F1AD3A05800BC513A /* LightweightKVOTests.m */; };
+		8E91977B1AD3A0C800BC513A /* Observer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E91977A1AD3A0C800BC513A /* Observer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,8 @@
 		8E9197691AD3A05800BC513A /* LightweightKVOTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LightweightKVOTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E91976E1AD3A05800BC513A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8E91976F1AD3A05800BC513A /* LightweightKVOTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LightweightKVOTests.m; sourceTree = "<group>"; };
+		8E9197791AD3A0C800BC513A /* Observer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Observer.h; sourceTree = "<group>"; };
+		8E91977A1AD3A0C800BC513A /* Observer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Observer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +92,8 @@
 				8E9197601AD3A05700BC513A /* Images.xcassets */,
 				8E9197621AD3A05700BC513A /* LaunchScreen.xib */,
 				8E9197531AD3A05700BC513A /* Supporting Files */,
+				8E9197791AD3A0C800BC513A /* Observer.h */,
+				8E91977A1AD3A0C800BC513A /* Observer.m */,
 			);
 			path = LightweightKVO;
 			sourceTree = "<group>";
@@ -220,6 +225,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8E91975C1AD3A05700BC513A /* ViewController.m in Sources */,
+				8E91977B1AD3A0C800BC513A /* Observer.m in Sources */,
 				8E9197591AD3A05700BC513A /* AppDelegate.m in Sources */,
 				8E9197561AD3A05700BC513A /* main.m in Sources */,
 			);
